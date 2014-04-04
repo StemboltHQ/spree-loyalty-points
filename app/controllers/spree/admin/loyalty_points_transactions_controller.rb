@@ -73,6 +73,7 @@ class Spree::Admin::LoyaltyPointsTransactionsController < Spree::Admin::Resource
 
     def set_ordered_transactions
       @loyalty_points_transactions = @loyalty_points_transactions.order(updated_at: :desc).
+        where(type: "Spree::LoyaltyPointsCreditTransaction").
         page(params[:page]).
         per(params[:per_page] || Spree::Config[:orders_per_page])
     end

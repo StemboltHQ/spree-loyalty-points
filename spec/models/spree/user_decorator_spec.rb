@@ -11,8 +11,6 @@ describe Spree::User do
   end
 
   it { should have_many :loyalty_points_transactions }
-  it { should have_many :loyalty_points_credit_transactions }
-  it { should have_many :loyalty_points_debit_transactions }
 
   it "is invalid without numeric loyalty_points_balance" do
     should validate_numericality_of(:loyalty_points_balance).only_integer

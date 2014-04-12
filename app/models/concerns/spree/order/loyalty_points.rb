@@ -6,7 +6,7 @@ module Spree
       extend ActiveSupport::Concern
 
       def loyalty_points_total
-        loyalty_points_credit_transactions.sum(:loyalty_points) - loyalty_points_debit_transactions.sum(:loyalty_points)
+        loyalty_points_transactions.sum(:loyalty_points)
       end
 
       def award_loyalty_points
@@ -17,7 +17,7 @@ module Spree
       end
 
       def loyalty_points_awarded?
-        loyalty_points_credit_transactions.count > 0
+        loyalty_points_transactions.count > 0
       end
 
       def loyalty_points_used?
@@ -37,11 +37,11 @@ module Spree
       end
       
       def create_credit_transaction(points)
-        user.loyalty_points_credit_transactions.create(source: self, loyalty_points: points)
+        user.loyalty_points_transactions.create(source: self, loyalty_points: points)
       end
 
       def create_debit_transaction(points)
-        user.loyalty_points_debit_transactions.create(source: self, loyalty_points: points)
+        user.loyalty_points_transactions.create(source: self, loyalty_points: (-points))
       end
 
       private

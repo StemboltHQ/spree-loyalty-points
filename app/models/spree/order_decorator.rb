@@ -3,10 +3,8 @@ Spree::Order.class_eval do
   include Spree::Order::LoyaltyPoints
 
   has_many :loyalty_points_transactions, as: :source
-  has_many :loyalty_points_credit_transactions, as: :source
-  has_many :loyalty_points_debit_transactions, as: :source
 
-  scope :loyalty_points_not_awarded, -> { includes(:loyalty_points_credit_transactions).where(:spree_loyalty_points_transactions => { :source_id => nil } ) }
+  scope :loyalty_points_not_awarded, -> { includes(:loyalty_points_transactions).where(:spree_loyalty_points_transactions => { :source_id => nil } ) }
 
   scope :with_hours_since_payment, ->(num) { where('`spree_orders`.`paid_at` < ? ', num.hours.ago) }
 

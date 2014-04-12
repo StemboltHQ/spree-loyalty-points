@@ -72,8 +72,6 @@ describe Spree::Order do
   end
 
   it { should have_many :loyalty_points_transactions }
-  it { should have_many :loyalty_points_credit_transactions }
-  it { should have_many :loyalty_points_debit_transactions }
 
   it_should_behave_like "LoyaltyPoints" do
     let(:resource_instance) { @order }
@@ -88,8 +86,8 @@ describe Spree::Order do
     let (:order2) { create(:order_with_loyalty_points) }
 
     before :each do
-      @order.loyalty_points_credit_transactions = []
-      order2.loyalty_points_credit_transactions = create_list(:loyalty_points_credit_transaction, 1, source: order2)
+      @order.loyalty_points_transactions = []
+      order2.loyalty_points_transactions = create_list(:loyalty_points_transaction, 1, source: order2)
     end
 
     it "should return orders where loyalty points haven't been awarded" do
@@ -122,11 +120,11 @@ describe Spree::Order do
 
     before :each do
       @order.paid_at = 4.hours.ago
-      @order.loyalty_points_credit_transactions = []
+      @order.loyalty_points_transactions = []
       order2.paid_at = 1.hour.ago
-      order2.loyalty_points_credit_transactions = []
+      order2.loyalty_points_transactions = []
       order3.paid_at = 5.hours.ago
-      order3.loyalty_points_credit_transactions = create_list(:loyalty_points_credit_transaction, 1, source: order2)
+      order3.loyalty_points_transactions = create_list(:loyalty_points_transaction, 1, source: order2)
       @order.save!
       order2.save!
       order3.save!

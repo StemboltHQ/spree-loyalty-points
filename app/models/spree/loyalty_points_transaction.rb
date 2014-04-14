@@ -1,5 +1,8 @@
 module Spree
   class LoyaltyPointsTransaction < ActiveRecord::Base
+
+    @@admin_permitted_attributes = [:loyalty_points, :comment, :source_id, :source_type]
+
     belongs_to :user
     belongs_to :source, polymorphic: true
 

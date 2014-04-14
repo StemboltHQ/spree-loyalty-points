@@ -47,7 +47,7 @@ class Spree::Admin::LoyaltyPointsTransactionsController < Spree::Admin::Resource
     end
 
     def loyalty_points_transaction_params
-      params.require(:loyalty_points_transaction).permit(:loyalty_points, :comment, :source_id, :source_type)
+      params.require(:loyalty_points_transaction).permit(Spree::LoyaltyPointsTransaction.admin_permitted_attributes)
     end
 
     def set_ordered_transactions

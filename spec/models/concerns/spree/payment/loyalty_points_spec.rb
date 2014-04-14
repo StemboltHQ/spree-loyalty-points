@@ -65,7 +65,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
 
         it "should create loyalty_points_debit_transaction on order" do
           resource_instance.send(:redeem_loyalty_points)
-          Spree::LoyaltyPointsDebitTransaction.last.loyalty_points.should eq(55)
+          Spree::LoyaltyPointsTransaction.last.loyalty_points.should eq(-55)
         end
 
       end
@@ -116,7 +116,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
 
     it "should create loyalty_points_credit_transaction on order" do
       resource_instance.send(:return_loyalty_points)
-      Spree::LoyaltyPointsCreditTransaction.last.loyalty_points.should eq(30)
+      Spree::LoyaltyPointsTransaction.last.loyalty_points.should eq(30)
     end
 
   end

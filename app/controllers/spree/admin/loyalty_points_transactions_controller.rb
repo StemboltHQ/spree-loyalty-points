@@ -14,8 +14,7 @@ class Spree::Admin::LoyaltyPointsTransactionsController < Spree::Admin::Resource
               :only => [:id, :number]
             }
           },
-          :only => [:source_type, :comment, :updated_at, :loyalty_points, :balance],
-          :methods => [:transaction_type]
+          :only => [:source_type, :comment, :updated_at, :loyalty_points, :balance]
         )
       end
     end
@@ -48,27 +47,7 @@ class Spree::Admin::LoyaltyPointsTransactionsController < Spree::Admin::Resource
     end
 
     def loyalty_points_transaction_params
-      params.require(:loyalty_points_transaction).permit(:loyalty_points, :type, :comment, :source_id, :source_type)
-    end
-
-    def build_resource
-      if params[:loyalty_points_transaction].present? && params[:loyalty_points_transaction][:type].present?
-        parent.send(association_name(params[:loyalty_points_transaction][:type])).build
-      else
-        parent.send(controller_name).build
-      end
-    end
-
-    def association_name(klass)
-      klass.gsub('Spree::', '').pluralize.underscore
-    end
-
-    def collection_url
-      if (parent_data.present? && @parent.nil?) || parent_data.blank?
-        admin_users_url
-      else
-        admin_user_loyalty_points_transactions_url(@parent)
-      end
+      params.require(:loyalty_points_transaction).permit(:loyalty_points, :comment, :source_id, :source_type)
     end
 
     def set_ordered_transactions

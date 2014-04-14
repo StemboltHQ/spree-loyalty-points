@@ -34,7 +34,6 @@ $(document).ready(function() {
             this.appendTableRowData(transaction_date, $transactionRow);
             this.appendSourceReference(transaction['source_type'], transaction['source']['number'], $transactionRow);
             this.appendTableRowData(transaction['comment'], $transactionRow);
-            this.appendTableRowData(transaction['transaction_type'], $transactionRow);
             this.appendTableRowData(transaction['loyalty_points'], $transactionRow);
             this.appendTableRowData(transaction['balance'], $transactionRow);
         }.bind(this));
@@ -49,7 +48,6 @@ $(document).ready(function() {
         this.appendHeadData('Source', $tableHeadRow);
         this.appendHeadData('Source Reference', $tableHeadRow);
         this.appendHeadData('Comment', $tableHeadRow);
-        this.appendHeadData('Transaction Type', $tableHeadRow);
         this.appendHeadData('Loyalty Points', $tableHeadRow);
         this.appendHeadData('Updated Balance', $tableHeadRow);
     }

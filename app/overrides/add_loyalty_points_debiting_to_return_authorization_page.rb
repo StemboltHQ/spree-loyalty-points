@@ -9,7 +9,6 @@ Deface::Override.new(:virtual_path => 'spree/admin/return_authorizations/_form',
         <%= @return_authorization.loyalty_points %> points Debited <br />
       <% else %>
         <%= f.text_field :loyalty_points, {:style => 'width:80px;'} %>
-        <%= f.hidden_field :loyalty_points_transaction_type, { value: :Debit } %>
         <br /> User's Loyalty Points Balance: <%= @order.user.loyalty_points_balance %> <br /> Net Loyalty Points Credited for this Order: <%= @order.loyalty_points_total %>
       <% end %>
     <% end %>

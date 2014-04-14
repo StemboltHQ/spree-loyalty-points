@@ -20,34 +20,16 @@ class Spree::Admin::LoyaltyPointsTransactionsController < Spree::Admin::Resource
     end
   end
 
-  def create
-    invoke_callbacks(:create, :before)
-    @object.attributes = loyalty_points_transaction_params
-    if @object.save
-      invoke_callbacks(:create, :after)
-      flash[:success] = flash_message_for(@object, :successfully_created)
-      respond_with(@object) do |format|
-        format.html { redirect_to location_after_save }
-        format.js   { render :layout => false }
-      end
-    else
-      invoke_callbacks(:create, :fails)
-      respond_with(@object) do |format|
-        format.html { render action: :new }
-      end
-    end
-  end
-
   protected
+
+    def location_after_save
+      admin_user_loyalty_points_transactions_path(@user)
+    end
 
     def set_user
       unless @user = Spree::User.find_by(id: params[:user_id])
         redirect_to admin_users_path, notice: 'User not found'
       end
-    end
-
-    def loyalty_points_transaction_params
-      params.require(:loyalty_points_transaction).permit(Spree::LoyaltyPointsTransaction.admin_permitted_attributes)
     end
 
     def set_ordered_transactions

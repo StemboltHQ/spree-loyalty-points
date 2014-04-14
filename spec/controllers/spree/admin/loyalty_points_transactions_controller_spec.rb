@@ -123,19 +123,6 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
 
   end
 
-  context "when user not found" do
-
-    before(:each) do
-      Spree::User.stub(:find_by).and_return(nil)
-      controller.stub(:parent).and_raise(ActiveRecord::RecordNotFound)
-    end
-
-    it "should redirect to user's loyalty points page" do
-      get :index, :use_route => :spree
-      expect(response).to redirect_to(admin_users_path)
-    end
-    
-  end
 
   describe "GET 'order_transactions'" do
     def send_request(params = {})

@@ -22,10 +22,6 @@ class Spree::Admin::LoyaltyPointsTransactionsController < Spree::Admin::Resource
 
   protected
 
-    def location_after_save
-      admin_user_loyalty_points_transactions_path(@user)
-    end
-
     def set_user
       unless @user = Spree::User.find_by(id: params[:user_id])
         redirect_to admin_users_path, notice: 'User not found'

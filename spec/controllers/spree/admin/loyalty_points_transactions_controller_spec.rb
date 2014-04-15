@@ -91,34 +91,6 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
         send_request
       end
 
-      context "when transaction created " do
-
-        before(:each) do
-          controller.stub(:parent).and_return(user)
-          controller.instance_variable_set(:@parent, user)
-          send_request
-        end
-
-        it "redirects to admin users loyalty points page" do
-          expect(response).to redirect_to(admin_user_loyalty_points_transactions_url(user, default_host))
-        end
-
-      end
-
-      context "when transaction failed " do
-
-        before :each do
-          controller.stub(:load_resource_instance).and_return(loyalty_points_transaction)
-          loyalty_points_transaction.stub(:save).and_return(false)
-        end
-
-        it "renders new template" do
-          post :create, loyalty_points_transaction: attributes_for(:loyalty_points_transaction), user_id: "1", :use_route => :spree
-          expect(response).to render_template(:new)
-        end
-
-      end
-
     end
 
   end

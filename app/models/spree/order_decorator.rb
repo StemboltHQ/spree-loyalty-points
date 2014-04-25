@@ -8,7 +8,7 @@ Spree::Order.class_eval do
 
   scope :with_hours_since_payment, ->(num) { where('`spree_orders`.`paid_at` < ? ', num.hours.ago) }
 
-  scope :with_uncredited_loyalty_points, ->(num) { with_hours_since_payment(num).loyalty_points_not_awarded }
+  scope :with_uncredited_loyalty_points, ->(num) { with_hours_since_payment(num).loyalty_points_not_awarded.where.not(user_id: nil) }
 
   fsm = self.state_machines[:state]
   fsm.before_transition :from => fsm.states.map(&:name) - [:complete], :to => [:complete], :do => :complete_loyalty_points_payments

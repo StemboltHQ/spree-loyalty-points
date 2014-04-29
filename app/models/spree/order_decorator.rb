@@ -2,6 +2,8 @@ Spree::Order.class_eval do
   include Spree::LoyaltyPoints
   include Spree::Order::LoyaltyPoints
 
+  INELIGIBLE_ORDER_STATES = [:returned, :awaiting_return, :canceled]
+
   has_many :loyalty_points_transactions, as: :source
 
   scope :loyalty_points_not_awarded, -> { includes(:loyalty_points_transactions).where(:spree_loyalty_points_transactions => { :source_id => nil } ) }

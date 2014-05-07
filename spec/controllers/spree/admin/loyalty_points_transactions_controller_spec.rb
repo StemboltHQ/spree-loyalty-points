@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Spree::Admin::LoyaltyPointsTransactionsController do
 
   let(:user) { mock_model(Spree::User).as_null_object }
-  let(:loyalty_points_transaction) { mock_model(Spree::LoyaltyPointsCreditTransaction).as_null_object }
+  let(:loyalty_points_transaction) { mock_model(Spree::LoyaltyPointsTransaction).as_null_object }
   let(:order) { mock_model(Spree::Order).as_null_object }
 
   before(:each) do
@@ -100,7 +100,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
         end
 
         it "redirects to admin users loyalty points page" do
-          expect(response).to redirect_to(admin_user_loyalty_points_url(user, default_host))
+          expect(response).to redirect_to(admin_user_loyalty_points_transactions_url(user, default_host))
         end
 
       end
@@ -113,7 +113,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
         end
 
         it "renders new template" do
-          post :create, loyalty_points_transaction: attributes_for(:loyalty_points_credit_transaction), user_id: "1", :use_route => :spree
+          post :create, loyalty_points_transaction: attributes_for(:loyalty_points_transaction), user_id: "1", :use_route => :spree
           expect(response).to render_template(:new)
         end
 
@@ -164,7 +164,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
         end
 
         it "should return admin_users_url" do
-          controller.send(:collection_url).should eq(admin_user_loyalty_points_url(user, default_host))
+          controller.send(:collection_url).should eq(admin_user_loyalty_points_transactions_url(user, default_host))
         end
 
       end
@@ -188,11 +188,11 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
   describe "association_name" do
     
     before :each do
-      @class_name = "Spree::LoyaltyPointsDebitTransaction"
+      @class_name = "Spree::LoyaltyPointsTransaction"
     end
 
     it "should receive gsub on klass" do
-      @class_name.should_receive(:gsub).with('Spree::', '').and_return('LoyaltyPointsDebitTransaction')
+      @class_name.should_receive(:gsub).with('Spree::', '').and_return('LoyaltyPointsTransaction')
       controller.send(:association_name, @class_name)
     end
   end
@@ -202,13 +202,13 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
     context "when params[:loyalty_points_transaction][:type] is present" do
       
       before :each do
-        controller.stub(:params).and_return({ :loyalty_points_transaction => { :type => 'Spree::LoyaltyPointsCreditTransaction' } })
+        controller.stub(:params).and_return({ :loyalty_points_transaction => { :type => 'Spree::LoyaltyPointsTransaction' } })
         controller.stub(:parent).and_return(user)
-        controller.stub(:association_name).and_return("loyalty_points_credit_transactions")
+        controller.stub(:association_name).and_return("loyalty_points_transactions")
       end
 
       it "should receive send on parent" do
-        user.should_receive(:send).with("loyalty_points_credit_transactions")
+        user.should_receive(:send).with("loyalty_points_transactions")
         controller.send(:build_resource)
       end
 

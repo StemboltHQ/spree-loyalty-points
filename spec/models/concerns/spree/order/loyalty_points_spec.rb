@@ -38,27 +38,17 @@ shared_examples_for "Order::LoyaltyPoints" do
       it "should add a Loyalty Points Credit Transaction" do
         expect {
           resource_instance.send(:create_credit_transaction, 30)
-        }.to change{ Spree::LoyaltyPointsCreditTransaction.count }.by(1)
+        }.to change{ Spree::LoyaltyPointsTransaction.count }.by(1)
       end
 
       it "should create a Loyalty Points Credit Transaction" do
         resource_instance.send(:create_credit_transaction, 30)
-        Spree::LoyaltyPointsCreditTransaction.last.loyalty_points.should eq(30)
+        Spree::LoyaltyPointsTransaction.last.loyalty_points.should eq(30)
       end
 
       it "should create a Loyalty Points Credit Transaction" do
         resource_instance.send(:create_credit_transaction, 30)
-        Spree::LoyaltyPointsCreditTransaction.last.user_id.should eq(resource_instance.user_id)
-      end
-
-    end
-
-    context "when quantity is 0" do
-      
-      it "should not add a Loyalty Points Credit Transaction" do
-        expect {
-          resource_instance.send(:create_credit_transaction, 0)
-        }.to change{ Spree::LoyaltyPointsCreditTransaction.count }.by(0)
+        Spree::LoyaltyPointsTransaction.last.user_id.should eq(resource_instance.user_id)
       end
 
     end
@@ -72,27 +62,17 @@ shared_examples_for "Order::LoyaltyPoints" do
       it "should add a Loyalty Points Debit Transaction" do
         expect {
           resource_instance.send(:create_debit_transaction, 30)
-        }.to change{ Spree::LoyaltyPointsDebitTransaction.count }.by(1)
+        }.to change{ Spree::LoyaltyPointsTransaction.count }.by(1)
       end
 
       it "should create a Loyalty Points Debit Transaction" do
         resource_instance.send(:create_debit_transaction, 30)
-        Spree::LoyaltyPointsDebitTransaction.last.loyalty_points.should eq(30)
+        Spree::LoyaltyPointsTransaction.last.loyalty_points.should eq(-30)
       end
 
       it "should create a Loyalty Points Credit Transaction" do
         resource_instance.send(:create_debit_transaction, 30)
-        Spree::LoyaltyPointsDebitTransaction.last.user_id.should eq(resource_instance.user_id)
-      end
-
-    end
-
-    context "when quantity is 0" do
-      
-      it "should not add a Loyalty Points Debit Transaction" do
-        expect {
-          resource_instance.send(:create_debit_transaction, 0)
-        }.to change{ Spree::LoyaltyPointsDebitTransaction.count }.by(0)
+        Spree::LoyaltyPointsTransaction.last.user_id.should eq(resource_instance.user_id)
       end
 
     end
@@ -161,7 +141,7 @@ shared_examples_for "Order::LoyaltyPoints" do
     context "when credit transactions are absent" do
 
       before :each do
-        resource_instance.loyalty_points_credit_transactions = []
+        resource_instance.loyalty_points_transactions = []
       end
 
       it "should return false" do
@@ -175,8 +155,8 @@ shared_examples_for "Order::LoyaltyPoints" do
   describe 'loyalty_points_total' do
 
     before :each do
-      resource_instance.loyalty_points_credit_transactions = create_list(:loyalty_points_credit_transaction, 1, loyalty_points: 50)
-      resource_instance.loyalty_points_debit_transactions = create_list(:loyalty_points_debit_transaction, 1, loyalty_points: 30)
+      resource_instance.loyalty_points_transactions = create_list(:loyalty_points_transaction, 1, loyalty_points: 50)
+      resource_instance.loyalty_points_transactions << create_list(:loyalty_points_transaction, 1, loyalty_points: -30)
     end
 
     it "should result in net loyalty points for that order" do

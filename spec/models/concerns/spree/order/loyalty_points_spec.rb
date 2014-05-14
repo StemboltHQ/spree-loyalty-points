@@ -143,16 +143,32 @@ shared_examples_for "Order::LoyaltyPoints" do
 
   describe ".credit_loyalty_points_to_user" do
     context "with a complete and paid order" do
-      let!(:complete_order) { create :order, state: "complete" }
+      context 'when a date is supplied' do
+        let(:uncredited_orders) { double }
+        let(:since) { Time.local(2000,1,1) }
 
-      before do
-        allow(Spree::Config).to receive(:loyalty_points_award_period).and_return(0)
-        complete_order.touch(:paid_at)
+        before do
+          allow(Spree::Order).to receive(:uncredited_orders) { uncredited_orders }
+          expect(uncredited_orders).to receive(:where).with('`spree_orders`.`completed_at` > ?', since) { [] }
+        end
+
+        it "awards points to all orders past the date" do
+          Spree::Order.credit_loyalty_points_to_user since
+        end
       end
 
-      it "awards loyalty points to the order" do
-        expect_any_instance_of(Spree::Order).to receive(:award_loyalty_points).once
-        Spree::Order.credit_loyalty_points_to_user
+      context "when a date isn't supplied" do
+        let!(:complete_order) { create :order, state: "complete" }
+
+        before do
+          allow(Spree::Config).to receive(:loyalty_points_award_period).and_return(0)
+          complete_order.touch(:paid_at)
+        end
+
+        it "awards loyalty points to the order" do
+          expect_any_instance_of(Spree::Order).to receive(:award_loyalty_points).once
+          Spree::Order.credit_loyalty_points_to_user
+        end
       end
     end
   end

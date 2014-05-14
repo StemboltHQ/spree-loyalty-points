@@ -25,8 +25,11 @@ module Spree
       end
 
       module ClassMethods
-        def credit_loyalty_points_to_user
-          uncredited_orders.each do |order|
+        def credit_loyalty_points_to_user since=nil
+          orders = uncredited_orders
+          orders = orders.where('`spree_orders`.`completed_at` > ?', since) if since
+
+          orders.each do |order|
             order.award_loyalty_points
           end
         end

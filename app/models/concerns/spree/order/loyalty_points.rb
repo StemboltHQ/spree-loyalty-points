@@ -25,17 +25,22 @@ module Spree
       end
 
       module ClassMethods
-        
-        def credit_loyalty_points_to_user
-          points_award_period = Spree::Config.loyalty_points_award_period
-          uncredited_orders = Spree::Order.with_uncredited_loyalty_points(points_award_period)
-          uncredited_orders.each do |order|
+        def credit_loyalty_points_to_user since=nil
+          orders = uncredited_orders
+          orders = orders.where('`spree_orders`.`completed_at` > ?', since) if since
+
+          orders.each do |order|
             order.award_loyalty_points
           end
         end
 
+        def uncredited_orders
+          points_period = Spree::Config.loyalty_points_award_period
+          Spree::Order.with_uncredited_loyalty_points(points_period).
+            where.not(spree_orders: { state: Spree::Order::INELIGIBLE_ORDER_STATES })
+        end
       end
-      
+
       def create_credit_transaction(points)
         user.loyalty_points_transactions.create(source: self, loyalty_points: points)
       end
@@ -46,9 +51,9 @@ module Spree
 
       private
 
-        def complete_loyalty_points_payments
-          payments.by_loyalty_points.with_state('checkout').each { |payment| payment.complete! }
-        end
+      def complete_loyalty_points_payments
+        payments.by_loyalty_points.with_state('checkout').each { |payment| payment.complete! }
+      end
 
     end
   end

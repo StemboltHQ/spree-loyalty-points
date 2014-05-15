@@ -2,13 +2,15 @@ Spree::Order.class_eval do
   include Spree::LoyaltyPoints
   include Spree::Order::LoyaltyPoints
 
+  INELIGIBLE_ORDER_STATES = [:returned, :awaiting_return, :canceled]
+
   has_many :loyalty_points_transactions, as: :source
 
   scope :loyalty_points_not_awarded, -> { includes(:loyalty_points_transactions).where(:spree_loyalty_points_transactions => { :source_id => nil } ) }
 
   scope :with_hours_since_payment, ->(num) { where('`spree_orders`.`paid_at` < ? ', num.hours.ago) }
 
-  scope :with_uncredited_loyalty_points, ->(num) { with_hours_since_payment(num).loyalty_points_not_awarded }
+  scope :with_uncredited_loyalty_points, ->(num) { with_hours_since_payment(num).loyalty_points_not_awarded.where.not(user_id: nil) }
 
   fsm = self.state_machines[:state]
   fsm.before_transition :from => fsm.states.map(&:name) - [:complete], :to => [:complete], :do => :complete_loyalty_points_payments

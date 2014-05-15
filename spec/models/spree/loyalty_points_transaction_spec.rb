@@ -146,18 +146,4 @@ describe Spree::LoyaltyPointsTransaction do
 
   end
 
-  describe "TransactionsTotalValidation" do
-    
-    before :each do
-      @order = create(:order_with_loyalty_points)
-      @loyalty_points_transaction = create(:loyalty_points_transaction, source: @order)
-    end
-
-    it_should_behave_like "TransactionsTotalValidation" do
-      let(:resource_instance) { @loyalty_points_transaction }
-      let(:relation) { @loyalty_points_transaction.source }
-    end
-
-  end
-
 end

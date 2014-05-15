@@ -34,13 +34,4 @@ describe Spree::ReturnAuthorization do
 
   end
 
-  describe "TransactionsTotalValidation" do
-
-    it_should_behave_like "TransactionsTotalValidation" do
-      let(:resource_instance) { @return_authorization }
-      let(:relation) { @return_authorization.order }
-    end
-
-  end
-
 end

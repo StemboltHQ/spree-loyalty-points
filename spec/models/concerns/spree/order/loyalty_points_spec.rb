@@ -41,6 +41,14 @@ shared_examples_for "Order::LoyaltyPoints" do
         resource_instance.send(:create_credit_transaction, 30)
         Spree::LoyaltyPointsTransaction.last.user_id.should eq(resource_instance.user_id)
       end
+      
+      context 'when guest checkout' do
+        before(:each) { allow(resource_instance).to receive(:user) }
+        
+        it 'should return false' do
+          expect(resource_instance.send(:create_credit_transaction, 30)).to be_false
+        end
+      end
     end
   end
 
@@ -61,6 +69,15 @@ shared_examples_for "Order::LoyaltyPoints" do
         resource_instance.send(:create_debit_transaction, 30)
         Spree::LoyaltyPointsTransaction.last.user_id.should eq(resource_instance.user_id)
       end
+      
+      context 'when guest checkout' do
+        before(:each) { allow(resource_instance).to receive(:user) }
+        
+        it 'should return false' do
+          expect(resource_instance.send(:create_credit_transaction, 30)).to be_false
+        end
+      end
+
     end
   end
 

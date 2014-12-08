@@ -42,11 +42,11 @@ module Spree
       end
 
       def create_credit_transaction(points)
-        user.loyalty_points_transactions.create(source: self, loyalty_points: points)
+        user.present? && user.loyalty_points_transactions.create(source: self, loyalty_points: points)
       end
 
       def create_debit_transaction(points)
-        user.loyalty_points_transactions.create(source: self, loyalty_points: (-points))
+        user.present? && user.loyalty_points_transactions.create(source: self, loyalty_points: (-points))
       end
 
       private

@@ -6,18 +6,18 @@ module Spree
       extend ActiveSupport::Concern
 
       def loyalty_points_total
-        loyalty_points_credit_transactions.sum(:loyalty_points) - loyalty_points_debit_transactions.sum(:loyalty_points)
+        loyalty_points_transactions.sum(:loyalty_points)
       end
 
       def award_loyalty_points
-        loyalty_points_earned = loyalty_points_for(item_total)
+        loyalty_points_earned = loyalty_points_for(loyalty_points_eligible_total)
         if !loyalty_points_used?
           create_credit_transaction(loyalty_points_earned)
         end
       end
 
       def loyalty_points_awarded?
-        loyalty_points_credit_transactions.count > 0
+        loyalty_points_transactions.count > 0
       end
 
       def loyalty_points_used?

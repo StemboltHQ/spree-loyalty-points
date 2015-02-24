@@ -60,7 +60,7 @@ describe Spree::LoyaltyPointsTransaction do
     end
 
     it "should not add error 'Source or Comment should be present'" do
-      @loyalty_points_transaction.errors[:base].include?('Source or Comment should be present').should be_false
+      @loyalty_points_transaction.errors[:base].include?('Source or Comment should be present').should be_falsey
     end
 
   end
@@ -78,7 +78,7 @@ describe Spree::LoyaltyPointsTransaction do
     end
 
     it "should not add error 'Source or Comment should be present'" do
-      @loyalty_points_transaction.errors[:base].include?('Source or Comment should be present').should be_false
+      @loyalty_points_transaction.errors[:base].include?('Source or Comment should be present').should be_falsey
     end
 
   end

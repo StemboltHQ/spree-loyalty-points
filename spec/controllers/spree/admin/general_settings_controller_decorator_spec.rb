@@ -19,6 +19,7 @@ describe Spree::Admin::GeneralSettingsController do
 
     it "should have only option set to [:edit]" do
       ([:edit] - Spree::Admin::GeneralSettingsController._process_action_callbacks.select{ |callback| callback.filter == :set_loyalty_points_settings }.first.options[:only]).should be_empty
+      binding.pry
     end
 
   end

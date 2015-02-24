@@ -18,7 +18,7 @@ describe Spree::User do
 
   it "is invalid with a loyalty balance below 0" do
     @user.loyalty_points_balance = -1
-    expect(@user.valid?).to be_false
+    expect(@user.valid?).to be_falsey
   end
 
   describe 'loyalty_points_balance_sufficient?' do

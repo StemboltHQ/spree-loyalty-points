@@ -145,7 +145,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
       end
 
       it "should return false" do
-        resource_instance.send(:by_loyalty_points?).should be_false
+        resource_instance.send(:by_loyalty_points?).should be_falsey
       end
 
     end
@@ -177,7 +177,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
       end
 
       it "should return false" do
-        resource_instance.send(:redeemable_loyalty_points_balance?).should be_false
+        resource_instance.send(:redeemable_loyalty_points_balance?).should be_falsey
       end
 
     end

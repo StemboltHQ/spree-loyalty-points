@@ -27,7 +27,7 @@ describe Spree::PaymentMethod do
     context "when loyalty points id not included in method ids" do
       
       it "should return false" do
-        Spree::PaymentMethod.loyalty_points_id_included?([payment_method2.id, payment_method3.id]).should be_false
+        Spree::PaymentMethod.loyalty_points_id_included?([payment_method2.id, payment_method3.id]).should be_falsey
       end
 
     end

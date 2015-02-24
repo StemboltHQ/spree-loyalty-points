@@ -46,7 +46,7 @@ shared_examples_for "Order::LoyaltyPoints" do
         before(:each) { allow(resource_instance).to receive(:user) }
         
         it 'should return false' do
-          expect(resource_instance.send(:create_credit_transaction, 30)).to be_false
+          expect(resource_instance.send(:create_credit_transaction, 30)).to be_falsey
         end
       end
     end
@@ -74,7 +74,7 @@ shared_examples_for "Order::LoyaltyPoints" do
         before(:each) { allow(resource_instance).to receive(:user) }
         
         it 'should return false' do
-          expect(resource_instance.send(:create_credit_transaction, 30)).to be_false
+          expect(resource_instance.send(:create_credit_transaction, 30)).to be_falsey
         end
       end
 

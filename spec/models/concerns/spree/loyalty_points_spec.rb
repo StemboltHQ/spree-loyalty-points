@@ -75,7 +75,7 @@ shared_examples_for "LoyaltyPoints" do
     context "when amount less than redeeming balance" do
 
       it "should return false" do
-        resource_instance.send(:eligible_for_loyalty_points?, 20).should be_false
+        resource_instance.send(:eligible_for_loyalty_points?, 20).should be_falsey
       end
 
     end

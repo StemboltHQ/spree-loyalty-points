@@ -14,7 +14,7 @@ describe Spree::Admin::GeneralSettingsController do
   describe "set_loyalty_points_settings callback" do
 
     it "should be included in before action callbacks" do
-      Spree::Admin::GeneralSettingsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_loyalty_points_settings).should be_true
+      Spree::Admin::GeneralSettingsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_loyalty_points_settings).should be_truthy
     end
 
     it "should have only option set to [:edit]" do

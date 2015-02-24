@@ -15,7 +15,7 @@ describe Spree::Admin::ReturnAuthorizationsController do
   describe "set_loyalty_points_transactions callback" do
 
     it "should be included in before action callbacks" do
-      Spree::Admin::ReturnAuthorizationsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_loyalty_points_transactions).should be_true
+      Spree::Admin::ReturnAuthorizationsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_loyalty_points_transactions).should be_truthy
     end
 
     it "should have only option set to [:new, :edit, :create, :update]" do

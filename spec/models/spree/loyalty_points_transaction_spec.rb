@@ -40,7 +40,7 @@ describe Spree::LoyaltyPointsTransaction do
     end
 
     it "should add error 'Source or Comment should be present'" do
-      @loyalty_points_transaction.errors[:base].include?('Source or Comment should be present').should be_true
+      @loyalty_points_transaction.errors[:base].include?('Source or Comment should be present').should be_truthy
     end
 
   end
@@ -84,7 +84,7 @@ describe Spree::LoyaltyPointsTransaction do
   end
 
   it "should include generate_transaction_id in before create callbacks" do
-    Spree::LoyaltyPointsTransaction._create_callbacks.select { |callback| callback.kind == :before }.map(&:filter).include?(:generate_transaction_id).should be_true
+    Spree::LoyaltyPointsTransaction._create_callbacks.select { |callback| callback.kind == :before }.map(&:filter).include?(:generate_transaction_id).should be_truthy
   end
 
   describe "generate_transaction_id" do

@@ -19,7 +19,7 @@ describe Spree::PaymentMethod do
     context "when loyalty points id included in method ids" do
       
       it "should return true" do
-        Spree::PaymentMethod.loyalty_points_id_included?([loyalty_points_payment_method.id, payment_method2.id]).should be_true
+        Spree::PaymentMethod.loyalty_points_id_included?([loyalty_points_payment_method.id, payment_method2.id]).should be_truthy
       end
 
     end

@@ -22,7 +22,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
   describe "set_user callback" do
 
     it "should be included in before action callbacks" do
-      Spree::Admin::LoyaltyPointsTransactionsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_user).should be_true
+      Spree::Admin::LoyaltyPointsTransactionsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_user).should be_truthy
     end
 
     it "should have only option set to [:order_transactions]" do
@@ -34,7 +34,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
   describe "set_ordered_transactions callback" do
 
     it "should be included in before action callbacks" do
-      Spree::Admin::LoyaltyPointsTransactionsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_ordered_transactions).should be_true
+      Spree::Admin::LoyaltyPointsTransactionsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_ordered_transactions).should be_truthy
     end
 
     it "should have only option set to [:index]" do

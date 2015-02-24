@@ -10,21 +10,7 @@ describe Spree::Admin::GeneralSettingsController do
     controller.stub(:authorize!).and_return(true)
     controller.stub(:authorize_admin).and_return(true)
   end
-
-  describe "set_loyalty_points_settings callback" do
-
-    it "should be included in before action callbacks" do
-      # @KyleMacey - fix this shiznit
-      Spree::Admin::GeneralSettingsController._process_action_callbacks.select{ |callback| callback.kind == :before }.map(&:filter).include?(:set_loyalty_points_settings).should be_truthy
-    end
-
-    it "should have only option set to [:edit]" do
-      ([:edit] - Spree::Admin::GeneralSettingsController._process_action_callbacks.select{ |callback| callback.filter == :set_loyalty_points_settings }.first.options[:only]).should be_empty
-      binding.pry
-    end
-
-  end
-
+  
   describe "GET 'edit'" do
 
     it "assigns @preferences_loyalty_points" do

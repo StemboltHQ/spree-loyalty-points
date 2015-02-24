@@ -37,6 +37,9 @@ require 'spree_loyalty_points/factories'
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 
+  # Rspec-rails 3 requires this functionality to be explicitly configured
+  config.infer_spec_type_from_file_location!
+
   # == URL Helpers
   #
   # Allows access to Spree's routes in specs:

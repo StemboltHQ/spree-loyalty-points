@@ -21,6 +21,7 @@ group :test do
   gem 'factory_girl', '~> 4.2'
   gem 'ffaker'
   gem 'rspec-rails',  '~> 2.13'
+  gem 'rspec-activemodel-mocks'
   gem 'simplecov'
   gem 'selenium-webdriver'
 end

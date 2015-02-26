@@ -1,16 +1,14 @@
 require 'spec_helper'
 
-describe Spree::Admin::LoyaltyPointsTransactionsController do
+describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller do
 
+  stub_authorization!
+  
   let(:user) { mock_model(Spree::User).as_null_object }
   let(:loyalty_points_transaction) { mock_model(Spree::LoyaltyPointsTransaction).as_null_object }
   let(:order) { mock_model(Spree::Order).as_null_object }
 
   before(:each) do
-    controller.stub(:spree_current_user).and_return(user)
-    user.stub(:generate_spree_api_key!).and_return(true)
-    controller.stub(:authorize!).and_return(true)
-    controller.stub(:authorize_admin).and_return(true)
     user.loyalty_points_transactions.stub(:create).and_return(loyalty_points_transaction)
     controller.stub(:parent_data).and_return({ :model_name => 'spree/order', :model_class => Spree::Order, :find_by => 'id' })
   end

@@ -14,7 +14,7 @@ describe Spree::CheckoutController do
     controller.stub(:load_order).and_return(true)
   end
 
-  describe "PUT 'update'" do
+  describe "PATCH 'update'" do
     before :each do
       controller.stub(:ensure_order_not_completed).and_return(true)
       controller.stub(:ensure_sufficient_stock_lines).and_return(true)
@@ -25,7 +25,7 @@ describe Spree::CheckoutController do
     context "when state is payment" do
 
       def send_request
-        put :update, state: "payment", order: { payments_attributes: [{:payment_method_id => loyalty_points_payment_method.id}], id: order.id }, use_route: :spree
+        patch :update, state: "payment", order: { payments_attributes: [{:payment_method_id => loyalty_points_payment_method.id}], id: order.id }, use_route: :spree
       end
 
       it "should receive sufficient_loyalty_points on Spree::PaymentMethod" do

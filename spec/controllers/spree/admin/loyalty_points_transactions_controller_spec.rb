@@ -90,7 +90,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController do
       end
 
       it "should redirect_to admin_users_path" do
-        expect(response).to_not redirect_to(admin_users_path)
+        expect(response).to redirect_to(admin_users_path)
       end
 
       it "assigns @loyalty_points_transactions" do

@@ -20,7 +20,7 @@ group :test do
   gem 'database_cleaner'
   gem 'factory_girl', '~> 4.2'
   gem 'ffaker'
-  gem 'rspec-rails',  '~> 2.13'
+  gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'simplecov'
   gem 'selenium-webdriver'

@@ -67,7 +67,7 @@ describe Spree::Payment do
     context "all payments completed" do
 
       before :each do
-        @payment.stub(:all_payments_completed?).and_return(true)
+        allow(@payment).to receive(:all_payments_completed?).and_return(true)
       end
 
       it "should change paid_at in order" do
@@ -81,7 +81,7 @@ describe Spree::Payment do
     context "all payments not completed" do
 
       before :each do
-        @payment.stub(:all_payments_completed?).and_return(false)
+        allow(@payment).to receive(:all_payments_completed?).and_return(false)
       end
 
       it "should change paid_at in order" do
@@ -156,14 +156,14 @@ describe Spree::Payment do
       order = create(:order_with_loyalty_points)
       @payment.order = order
       order.payments = payments + [@payment]
-      order.payments.stub(:with_state).with('checkout').and_return(order.payments)
-      order.payments.stub(:where).and_return(order.payments)
+      allow(order.payments).to receive(:with_state).with('checkout').and_return(order.payments)
+      allow(order.payments).to receive(:where).and_return(order.payments)
     end
 
     context "when payment not by loyalty points" do
 
       before :each do
-        @payment.stub(:by_loyalty_points?).and_return(false)
+        allow(@payment).to receive(:by_loyalty_points?).and_return(false)
       end
 
       it "should receive with_state on order.payments" do
@@ -186,7 +186,7 @@ describe Spree::Payment do
     context "when payment by loyalty points" do
 
       before :each do
-        @payment.stub(:by_loyalty_points?).and_return(true)
+        allow(@payment).to receive(:by_loyalty_points?).and_return(true)
       end
 
       it "should not receive with_state on order.payments" do

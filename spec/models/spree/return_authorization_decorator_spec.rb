@@ -4,7 +4,7 @@ describe Spree::ReturnAuthorization do
 
   before(:each) do
     @return_authorization = create(:return_authorization_with_loyalty_points)
-    @return_authorization.order.stub(:loyalty_points_for).and_return(40)
+    allow(@return_authorization.order).to receive(:loyalty_points_for).and_return(40)
   end
 
   describe "update_loyalty_points callback" do
@@ -23,8 +23,8 @@ describe Spree::ReturnAuthorization do
 
     before :each do
       @debit_points = @return_authorization.order.loyalty_points_for(@return_authorization.order.loyalty_points_eligible_total)
-      @return_authorization.order.user.stub(:loyalty_points_balance).and_return(@debit_points + 10)
-      @return_authorization.stub(:loyalty_points).and_return(@debit_points + 20)
+      allow(@return_authorization.order.user).to receive(:loyalty_points_balance).and_return(@debit_points + 10)
+      allow(@return_authorization).to receive(:loyalty_points).and_return(@debit_points + 20)
     end
 
     it "should receive create_debit_transaction with order's loyalty_points_for" do

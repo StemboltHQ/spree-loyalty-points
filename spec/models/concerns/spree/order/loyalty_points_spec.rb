@@ -2,8 +2,8 @@ shared_examples_for "Order::LoyaltyPoints" do
   describe 'award_loyalty_points' do
     context "when payment not done via Loyalty Points" do
       before :each do
-        resource_instance.stub(:loyalty_points_used?).and_return(false)
-        resource_instance.stub(:loyalty_points_for).and_return(50)
+        allow(resource_instance).to receive(:loyalty_points_used?).and_return(false)
+        allow(resource_instance).to receive(:loyalty_points_for).and_return(50)
       end
 
       it "should receive create_credit_transaction" do
@@ -14,7 +14,7 @@ shared_examples_for "Order::LoyaltyPoints" do
 
     context "when payment done via Loyalty Points" do
       before :each do
-        resource_instance.stub(:loyalty_points_used?).and_return(true)
+        allow(resource_instance).to receive(:loyalty_points_used?).and_return(true)
       end
 
       it "should not receive create_credit_transaction" do
@@ -90,8 +90,8 @@ shared_examples_for "Order::LoyaltyPoints" do
 
   describe 'complete_loyalty_points_payments' do
     before :each do
-      resource_instance.payments.stub(:by_loyalty_points).and_return(resource_instance.payments)
-      resource_instance.payments.stub(:with_state).with('checkout').and_return(resource_instance.payments)
+      allow(resource_instance.payments).to receive(:by_loyalty_points).and_return(resource_instance.payments)
+      allow(resource_instance.payments).to receive(:with_state).with('checkout').and_return(resource_instance.payments)
     end
 
     it "should receive by_loyalty_points on payments" do

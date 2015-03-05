@@ -12,7 +12,7 @@ describe Spree::PaymentMethod::LoyaltyPoints do
     @order.user = user
     payment.payment_method = loyalty_points_payment_method
     payment.save!
-    Spree::Order.stub(:find_by_number).and_return(@order)
+    allow(Spree::Order).to receive(:find_by_number).and_return(@order)
   end
   
   describe 'actions' do
@@ -51,8 +51,8 @@ describe Spree::PaymentMethod::LoyaltyPoints do
     let(:gateway) { { order_id: @order.id.to_s + "-123456"  } }
 
     before :each do
-      Spree::Order.stub(:find_by_number).and_return(@order)
-      @order.stub(:loyalty_points_for).and_return(30)
+      allow(Spree::Order).to receive(:find_by_number).and_return(@order)
+      allow(@order).to receive(:loyalty_points_for).and_return(30)
     end
 
     it 'should be a new ActiveMerchant::Billing::Response' do

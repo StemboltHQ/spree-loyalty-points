@@ -8,18 +8,18 @@ describe Spree::CheckoutController do
   let(:payment) { Spree::Payment.new(:amount => 50.0) }
 
   before(:each) do
-    controller.stub(:spree_current_user).and_return(user)
-    user.stub(:generate_spree_api_key!).and_return(true)
-    controller.stub(:authorize!).and_return(true)
-    controller.stub(:load_order).and_return(true)
+    allow(controller).to receive(:spree_current_user).and_return(user)
+    allow(user).to receive(:generate_spree_api_key!).and_return(true)
+    allow(controller).to receive(:authorize!).and_return(true)
+    allow(controller).to receive(:load_order).and_return(true)
   end
 
   describe "PATCH 'update'" do
     before :each do
-      controller.stub(:ensure_order_not_completed).and_return(true)
-      controller.stub(:ensure_sufficient_stock_lines).and_return(true)
+      allow(controller).to receive(:ensure_order_not_completed).and_return(true)
+      allow(controller).to receive(:ensure_sufficient_stock_lines).and_return(true)
       controller.instance_variable_set(:@order, order)
-      controller.stub(:load_order_with_lock).and_return(true)
+      allow(controller).to receive(:load_order_with_lock).and_return(true)
     end
 
     context "when state is payment" do
@@ -36,7 +36,7 @@ describe Spree::CheckoutController do
       context "when loyalty points used" do
 
         before :each do
-          Spree::PaymentMethod.stub(:loyalty_points_id_included?).with(["#{loyalty_points_payment_method.id}"]).and_return(true)
+          allow(Spree::PaymentMethod).to receive(:loyalty_points_id_included?).with(["#{loyalty_points_payment_method.id}"]).and_return(true)
         end
 
         it "should receive loyalty_points_id_included? on Spree::PaymentMethod" do
@@ -52,7 +52,7 @@ describe Spree::CheckoutController do
         context "when user does not have sufficient loyalty points" do
 
           before :each do
-            order.user.stub(:has_sufficient_loyalty_points?).and_return(false)
+            allow(order.user).to receive(:has_sufficient_loyalty_points?).and_return(false)
           end
 
           it "should add error to flash" do
@@ -70,7 +70,7 @@ describe Spree::CheckoutController do
         context "when user has sufficient loyalty points" do
 
           before :each do
-            order.user.stub(:has_sufficient_loyalty_points?).and_return(true)
+            allow(order.user).to receive(:has_sufficient_loyalty_points?).and_return(true)
           end
 
           it "should not add error to flash" do
@@ -96,7 +96,7 @@ describe Spree::CheckoutController do
         end
 
         before :each do
-          Spree::PaymentMethod.stub(:loyalty_points_id_included?).with(["#{check_payment_method.id}"]).and_return(false)
+          allow(Spree::PaymentMethod).to receive(:loyalty_points_id_included?).with(["#{check_payment_method.id}"]).and_return(false)
         end
 
         it "should receive loyalty_points_id_included? on Spree::PaymentMethod" do

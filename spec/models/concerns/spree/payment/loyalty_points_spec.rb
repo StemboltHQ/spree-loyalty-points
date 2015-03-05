@@ -20,7 +20,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
     context "when payment made using loyalty points" do
 
       before :each do
-        Spree::Payment.stub(:by_loyalty_points).and_return(payments)
+        allow(Spree::Payment).to receive(:by_loyalty_points).and_return(payments)
       end
 
       it "should return true" do
@@ -32,7 +32,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
     context "when payment not made using loyalty points" do
 
       before :each do
-        Spree::Payment.stub(:by_loyalty_points).and_return([])
+        allow(Spree::Payment).to receive(:by_loyalty_points).and_return([])
       end
 
       it "should return false" do
@@ -48,14 +48,14 @@ shared_examples_for "Payment::LoyaltyPoints" do
     context "when payment done via Loyalty Points" do
 
       before :each do
-        resource_instance.stub(:by_loyalty_points?).and_return(true)
-        resource_instance.stub(:loyalty_points_for).and_return(55)
+        allow(resource_instance).to receive(:by_loyalty_points?).and_return(true)
+        allow(resource_instance).to receive(:loyalty_points_for).and_return(55)
       end
 
       context "when Loyalty Points are redeemable" do
 
         before :each do
-          resource_instance.stub(:redeemable_loyalty_points_balance?).and_return(true)
+          allow(resource_instance).to receive(:redeemable_loyalty_points_balance?).and_return(true)
         end
 
         it "should receive create_debit_transaction on order" do
@@ -73,7 +73,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
       context "when Loyalty Points are not redeemable" do
 
         before :each do
-          resource_instance.stub(:redeemable_loyalty_points_balance?).and_return(false)
+          allow(resource_instance).to receive(:redeemable_loyalty_points_balance?).and_return(false)
         end
 
         it "should not receive create_debit_transaction on order" do
@@ -88,7 +88,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
     context "when payment not done via Loyalty Points" do
 
       before :each do
-        resource_instance.stub(:by_loyalty_points?).and_return(false)
+        allow(resource_instance).to receive(:by_loyalty_points?).and_return(false)
       end
 
       it "should not receive create_debit_transaction on order" do
@@ -103,7 +103,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
   describe 'return_loyalty_points' do
 
     before :each do
-      resource_instance.stub(:loyalty_points_for).and_return(30)
+      allow(resource_instance).to receive(:loyalty_points_for).and_return(30)
       order = create(:order_with_loyalty_points)
       resource_instance.order = order
       @loyalty_points_redeemed = resource_instance.loyalty_points_for(resource_instance.amount, 'redeem')
@@ -155,7 +155,7 @@ shared_examples_for "Payment::LoyaltyPoints" do
   describe 'redeemable_loyalty_points_balance?' do
 
     before :each do
-      Spree::Config.stub(:loyalty_points_redeeming_balance).and_return(30)
+      allow(Spree::Config).to receive(:loyalty_points_redeeming_balance).and_return(30)
     end
 
     context "when amount greater than redeeming balance" do

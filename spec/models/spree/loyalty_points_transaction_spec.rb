@@ -92,7 +92,7 @@ describe Spree::LoyaltyPointsTransaction do
     before :each do
       @time = Time.current
       @random1 = 23432
-      Time.stub(:current).and_return(@time)
+      allow(Time).to receive(:current).and_return(@time)
       @transaction_id = (@time.strftime("%s") + @random1.to_s).to(15)
     end
 
@@ -100,7 +100,7 @@ describe Spree::LoyaltyPointsTransaction do
 
       before :each do
         Spree::LoyaltyPointsTransaction.delete_all(transaction_id: @transaction_id)
-        @loyalty_points_transaction.stub(:rand).with(999999).and_return(@random1)
+        allow(@loyalty_points_transaction).to receive(:rand).with(999999).and_return(@random1)
         @loyalty_points_transaction.save
       end
 
@@ -114,7 +114,7 @@ describe Spree::LoyaltyPointsTransaction do
 
       before :each do
         @random2 = 439795
-        @loyalty_points_transaction.stub(:rand).with(999999).and_return(@random1, @random2)
+        allow(@loyalty_points_transaction).to receive(:rand).with(999999).and_return(@random1, @random2)
         @transaction_id2 = (@time.strftime("%s") + @random2.to_s).to(15)
         Spree::LoyaltyPointsTransaction.delete_all(transaction_id: @transaction_id)
         loyalty_points_transaction2 = create(:loyalty_points_transaction)

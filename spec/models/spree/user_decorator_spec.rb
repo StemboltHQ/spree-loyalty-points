@@ -23,7 +23,7 @@ describe Spree::User do
 
   describe 'loyalty_points_balance_sufficient?' do
     before :each do
-      Spree::Config.stub(:loyalty_points_redeeming_balance).and_return(30)
+      allow(Spree::Config).to receive(:loyalty_points_redeeming_balance).and_return(30)
     end
 
     context "when loyalty_points_balance greater than redeeming balance" do
@@ -73,7 +73,7 @@ describe Spree::User do
     context "when loyalty_points_equivalent_currency greater than order total" do
 
       before :each do
-        @user.stub(:loyalty_points_equivalent_currency).and_return(40)
+        allow(@user).to receive(:loyalty_points_equivalent_currency).and_return(40)
       end
 
       it "should return true" do
@@ -85,7 +85,7 @@ describe Spree::User do
     context "when loyalty_points_equivalent_currency equal to order total" do
 
       before :each do
-        @user.stub(:loyalty_points_equivalent_currency).and_return(30)
+        allow(@user).to receive(:loyalty_points_equivalent_currency).and_return(30)
       end
 
       it "should return true" do
@@ -97,7 +97,7 @@ describe Spree::User do
     context "when loyalty_points_equivalent_currency less than order total" do
 
       before :each do
-        @user.stub(:loyalty_points_equivalent_currency).and_return(20)
+        allow(@user).to receive(:loyalty_points_equivalent_currency).and_return(20)
       end
 
       it "should return false" do
@@ -113,7 +113,7 @@ describe Spree::User do
     let (:conversion_rate) { 5.0 }
 
     before :each do
-      Spree::Config.stub(:loyalty_points_conversion_rate).and_return(conversion_rate)
+      allow(Spree::Config).to receive(:loyalty_points_conversion_rate).and_return(conversion_rate)
     end
 
     it "should return balance * conversion_rate" do

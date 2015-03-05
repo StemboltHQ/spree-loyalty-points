@@ -9,8 +9,8 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
   let(:order) { create :order }
 
   before(:each) do
-    user.loyalty_points_transactions.stub(:create).and_return(loyalty_points_transaction)
-    controller.stub(:parent_data).and_return({ :model_name => 'spree/order', :model_class => Spree::Order, :find_by => 'id' })
+    allow(user.loyalty_points_transactions).to receive(:create).and_return(loyalty_points_transaction)
+    allow(controller).to receive(:parent_data).and_return({ :model_name => 'spree/order', :model_class => Spree::Order, :find_by => 'id' })
   end
 
   def default_host
@@ -21,8 +21,8 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
   context "when user found" do
 
     before(:each) do
-      controller.stub(:parent).and_return(user)
-      Spree::User.stub(:find_by).and_return(user)
+      allow(controller).to receive(:parent).and_return(user)
+      allow(Spree::User).to receive(:find_by).and_return(user)
     end
 
     describe "GET 'index'" do
@@ -53,7 +53,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
       end
 
       before :each do
-        controller.stub(:load_resource_instance).and_return(loyalty_points_transaction)
+        allow(controller).to receive(:load_resource_instance).and_return(loyalty_points_transaction)
       end
 
       it "assigns @loyalty_points_transaction" do
@@ -76,14 +76,14 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
     end
 
     before :each do
-      Spree::Order.stub(:find_by).and_return(order)
+      allow(Spree::Order).to receive(:find_by).and_return(order)
     end
 
     context "when user is found" do
       
       before(:each) do
-        controller.stub(:parent).and_return(user)
-        Spree::User.stub(:find_by).and_return(user)
+        allow(controller).to receive(:parent).and_return(user)
+        allow(Spree::User).to receive(:find_by).and_return(user)
         send_request
       end
 
@@ -104,7 +104,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
     context "when user is not found" do
       
       before :each do
-        Spree::User.stub(:find_by).and_return(nil)
+        allow(Spree::User).to receive(:find_by).and_return(nil)
         send_request
       end
 

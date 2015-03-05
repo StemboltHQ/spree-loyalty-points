@@ -4,9 +4,9 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
 
   stub_authorization!
   
-  let(:user) { create :user }
+  let(:user) { mock_model(Spree::User).as_null_object }
   let(:loyalty_points_transaction) { mock_model(Spree::LoyaltyPointsTransaction).as_null_object }
-  let(:order) { create :order }
+  let(:order) { mock_model(Spree::Order).as_null_object }
 
   before(:each) do
     allow(user.loyalty_points_transactions).to receive(:create).and_return(loyalty_points_transaction)

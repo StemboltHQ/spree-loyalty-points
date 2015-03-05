@@ -7,7 +7,7 @@ shared_examples_for "Order::LoyaltyPoints" do
       end
 
       it "should receive create_credit_transaction" do
-        resource_instance.should_receive(:create_credit_transaction)
+        expect(resource_instance).to receive(:create_credit_transaction)
         resource_instance.award_loyalty_points
       end
     end
@@ -18,7 +18,7 @@ shared_examples_for "Order::LoyaltyPoints" do
       end
 
       it "should not receive create_credit_transaction" do
-        resource_instance.should_not_receive(:create_credit_transaction)
+        expect(resource_instance).to_not receive(:create_credit_transaction)
         resource_instance.award_loyalty_points
       end
     end
@@ -34,12 +34,12 @@ shared_examples_for "Order::LoyaltyPoints" do
 
       it "should create a Loyalty Points Credit Transaction" do
         resource_instance.send(:create_credit_transaction, 30)
-        Spree::LoyaltyPointsTransaction.last.loyalty_points.should eq(30)
+        expect(Spree::LoyaltyPointsTransaction.last.loyalty_points).to eq(30)
       end
 
       it "should create a Loyalty Points Credit Transaction" do
         resource_instance.send(:create_credit_transaction, 30)
-        Spree::LoyaltyPointsTransaction.last.user_id.should eq(resource_instance.user_id)
+        expect(Spree::LoyaltyPointsTransaction.last.user_id).to eq(resource_instance.user_id)
       end
       
       context 'when guest checkout' do
@@ -62,12 +62,12 @@ shared_examples_for "Order::LoyaltyPoints" do
 
       it "should create a Loyalty Points Debit Transaction" do
         resource_instance.send(:create_debit_transaction, 30)
-        Spree::LoyaltyPointsTransaction.last.loyalty_points.should eq(-30)
+        expect(Spree::LoyaltyPointsTransaction.last.loyalty_points).to eq(-30)
       end
 
       it "should create a Loyalty Points Credit Transaction" do
         resource_instance.send(:create_debit_transaction, 30)
-        Spree::LoyaltyPointsTransaction.last.user_id.should eq(resource_instance.user_id)
+        expect(Spree::LoyaltyPointsTransaction.last.user_id).to eq(resource_instance.user_id)
       end
       
       context 'when guest checkout' do
@@ -83,7 +83,7 @@ shared_examples_for "Order::LoyaltyPoints" do
 
   describe 'loyalty_points_used?' do
     it "should receive any_with_loyalty_points? on payments" do
-      resource_instance.payments.should_receive(:any_with_loyalty_points?)
+      expect(resource_instance.payments).to receive(:any_with_loyalty_points?)
       resource_instance.loyalty_points_used?
     end
   end
@@ -95,18 +95,18 @@ shared_examples_for "Order::LoyaltyPoints" do
     end
 
     it "should receive by_loyalty_points on payments" do
-      resource_instance.payments.should_receive(:by_loyalty_points)
+      expect(resource_instance.payments).to receive(:by_loyalty_points)
       resource_instance.send(:complete_loyalty_points_payments)
     end
 
     it "should receive with_state on payments" do
-      resource_instance.payments.by_loyalty_points.should_receive(:with_state).with('checkout')
+      expect(resource_instance.payments.by_loyalty_points).to receive(:with_state).with('checkout')
       resource_instance.send(:complete_loyalty_points_payments)
     end
 
     it "should receive complete on each payment" do
       resource_instance.payments.each do |payment|
-        payment.should_receive(:complete!)
+        expect(payment).to receive(:complete!)
       end
       resource_instance.send(:complete_loyalty_points_payments)
     end
@@ -193,7 +193,7 @@ shared_examples_for "Order::LoyaltyPoints" do
   describe 'loyalty_points_awarded?' do
     context "when credit transactions are present" do
       it "should return true" do
-        resource_instance.should be_loyalty_points_awarded
+        expect(resource_instance).to be_loyalty_points_awarded
       end
     end
 
@@ -203,7 +203,7 @@ shared_examples_for "Order::LoyaltyPoints" do
       end
 
       it "should return false" do
-        resource_instance.should_not be_loyalty_points_awarded
+        expect(resource_instance).to_not be_loyalty_points_awarded
       end
     end
   end
@@ -215,7 +215,7 @@ shared_examples_for "Order::LoyaltyPoints" do
     end
 
     it "should result in net loyalty points for that order" do
-      resource_instance.loyalty_points_total.should eq(20)
+      expect(resource_instance.loyalty_points_total).to eq(20)
     end
   end
 end

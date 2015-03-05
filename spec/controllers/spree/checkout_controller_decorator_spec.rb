@@ -29,7 +29,7 @@ describe Spree::CheckoutController do
       end
 
       it "should receive sufficient_loyalty_points on Spree::PaymentMethod" do
-        controller.should_receive(:sufficient_loyalty_points)
+        expect(controller).to receive(:sufficient_loyalty_points)
         send_request
       end
 
@@ -40,12 +40,12 @@ describe Spree::CheckoutController do
         end
 
         it "should receive loyalty_points_id_included? on Spree::PaymentMethod" do
-          Spree::PaymentMethod.should_receive(:loyalty_points_id_included?).with(["#{loyalty_points_payment_method.id}"])
+          expect(Spree::PaymentMethod).to receive(:loyalty_points_id_included?).with(["#{loyalty_points_payment_method.id}"])
           send_request
         end
 
         it "should receive has_sufficient_loyalty_points? on Spree::PaymentMethod" do
-          order.user.should_receive(:has_sufficient_loyalty_points?).with(order)
+          expect(order.user).to receive(:has_sufficient_loyalty_points?).with(order)
           send_request
         end
 
@@ -57,7 +57,7 @@ describe Spree::CheckoutController do
 
           it "should add error to flash" do
             send_request
-            flash[:error].should eq(Spree.t(:insufficient_loyalty_points))
+            expect(flash[:error]).to eq(Spree.t(:insufficient_loyalty_points))
           end
 
           it "should redirect to payments page" do
@@ -75,7 +75,7 @@ describe Spree::CheckoutController do
 
           it "should not add error to flash" do
             send_request
-            flash[:error].should be_nil
+            expect(flash[:error]).to be_nil
           end
 
           it "should redirect to payments page" do
@@ -100,12 +100,12 @@ describe Spree::CheckoutController do
         end
 
         it "should receive loyalty_points_id_included? on Spree::PaymentMethod" do
-          Spree::PaymentMethod.should_receive(:loyalty_points_id_included?).with(["#{check_payment_method.id}"])
+          expect(Spree::PaymentMethod).to receive(:loyalty_points_id_included?).with(["#{check_payment_method.id}"])
           send_request
         end
 
         it "should not receive has_sufficient_loyalty_points? on Spree::PaymentMethod" do
-          order.user.should_not_receive(:has_sufficient_loyalty_points?).with(order)
+          expect(order.user).to_not receive(:has_sufficient_loyalty_points?).with(order)
           send_request
         end
 
@@ -120,7 +120,7 @@ describe Spree::CheckoutController do
       end
 
       it "should not receive sufficient_loyalty_points on Spree::PaymentMethod" do
-        controller.should_not_receive(:sufficient_loyalty_points)
+        expect(controller).to_not receive(:sufficient_loyalty_points)
         send_request
       end
 

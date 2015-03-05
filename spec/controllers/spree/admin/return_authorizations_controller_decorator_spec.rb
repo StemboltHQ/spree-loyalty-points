@@ -27,23 +27,23 @@ describe Spree::Admin::ReturnAuthorizationsController do
 
     it "assigns loyalty_points_transactions" do
       send_request
-      assigns[:loyalty_points_transactions].should eq(@loyalty_points_transactions)
+      expect(assigns[:loyalty_points_transactions]).to eq(@loyalty_points_transactions)
     end
 
     it "should receive loyalty_points_transactions on order" do
-      return_authorization.order.should_receive(:loyalty_points_transactions)
+      expect(return_authorization.order).to receive(:loyalty_points_transactions)
       send_request
     end
 
     it "should receive page on loyalty_points_transactions" do
-      @loyalty_points_transactions.should_receive(:page).with('2')
+      expect(@loyalty_points_transactions).to receive(:page).with('2')
       send_request(page: 2)
     end
 
     context "when per_page is passed as a parameter" do
 
       it "should receive per with per_page on loyalty_points_transactions" do
-        @loyalty_points_transactions.should_receive(:per).with('20')
+        expect(@loyalty_points_transactions).to receive(:per).with('20')
         send_request(per_page: 20)
       end
     end
@@ -51,7 +51,7 @@ describe Spree::Admin::ReturnAuthorizationsController do
     context "when per_page is not passed as a parameter" do
 
       it "should receive per with Spree::Config[:orders_per_page] on loyalty_points_transactions" do
-        @loyalty_points_transactions.should_receive(:per).with(Spree::Config[:orders_per_page])
+        expect(@loyalty_points_transactions).to receive(:per).with(Spree::Config[:orders_per_page])
         send_request
       end
     end

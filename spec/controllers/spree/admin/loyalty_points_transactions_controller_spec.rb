@@ -32,11 +32,11 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
 
       it "assigns @loyalty_points_transactions" do
         send_request
-        assigns[:loyalty_points_transactions].should_not be_nil
+        expect(assigns[:loyalty_points_transactions]).to_not be_nil
       end
 
       it "@user should receive loyalty_points_transactions" do
-        user.should_receive(:loyalty_points_transactions)
+        expect(user).to receive(:loyalty_points_transactions)
         send_request
       end
 
@@ -58,11 +58,11 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
 
       it "assigns @loyalty_points_transaction" do
         send_request
-        assigns[:loyalty_points_transaction].should_not be_nil
+        expect(assigns[:loyalty_points_transaction]).to_not be_nil
       end
 
       it "@loyalty_points_transaction should receive save" do
-        loyalty_points_transaction.should_receive(:save)
+        expect(loyalty_points_transaction).to receive(:save)
         send_request
       end
 
@@ -92,11 +92,11 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
       end
 
       it "assigns @loyalty_points_transactions" do
-        assigns[:loyalty_points_transactions].should_not be_nil
+        expect(assigns[:loyalty_points_transactions]).to_not be_nil
       end
 
       it "should be http success" do
-        response.should be_success
+        expect(response).to be_success
       end
 
     end

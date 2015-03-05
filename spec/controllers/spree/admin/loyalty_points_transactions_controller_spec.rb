@@ -4,13 +4,12 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
 
   stub_authorization!
   
-  let(:user) { mock_model(Spree::User).as_null_object }
-  let(:loyalty_points_transaction) { mock_model(Spree::LoyaltyPointsTransaction).as_null_object }
-  let(:order) { mock_model(Spree::Order).as_null_object }
+  let(:user) { create(:user) }
+  let(:loyalty_points_transaction) { create(:loyalty_points_transaction) }
+  let(:order) { create(:order) }
 
   before(:each) do
     allow(user.loyalty_points_transactions).to receive(:create).and_return(loyalty_points_transaction)
-    allow(controller).to receive(:parent_data).and_return({ :model_name => 'spree/order', :model_class => Spree::Order, :find_by => 'id' })
   end
 
   def default_host
@@ -19,15 +18,9 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
 
 
   context "when user found" do
-
-    before(:each) do
-      allow(controller).to receive(:parent).and_return(user)
-      allow(Spree::User).to receive(:find_by).and_return(user)
-    end
-
     describe "GET 'index'" do
       def send_request(params = {})
-        get :index, params.merge!(:use_route => :spree)
+        get :index, params.merge!(use_route: :spree, user_id: user.id)
       end
 
       it "assigns @loyalty_points_transactions" do
@@ -35,21 +28,15 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
         expect(assigns[:loyalty_points_transactions]).to_not be_nil
       end
 
-      it "@user should receive loyalty_points_transactions" do
-        expect(user).to receive(:loyalty_points_transactions)
-        send_request
-      end
-
       it "renders index template" do
         send_request
         expect(response).to render_template(:index)
       end
-
     end
 
     describe "POST 'create'" do
       def send_request(params = {})
-        post :create, params.merge!(loyalty_points_transaction: attributes_for(:loyalty_points_transaction), :use_route => :spree)
+        post :create, params.merge!(user_id: user.id, loyalty_points_transaction: attributes_for(:loyalty_points_transaction), :use_route => :spree)
       end
 
       before :each do
@@ -82,13 +69,7 @@ describe Spree::Admin::LoyaltyPointsTransactionsController, :type => :controller
     context "when user is found" do
       
       before(:each) do
-        allow(controller).to receive(:parent).and_return(user)
-        allow(Spree::User).to receive(:find_by).and_return(user)
-        send_request
-      end
-
-      it "should redirect_to admin_users_path" do
-        expect(response).to redirect_to(admin_users_path)
+        send_request(user_id: user.id)
       end
 
       it "assigns @loyalty_points_transactions" do

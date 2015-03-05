@@ -37,7 +37,7 @@ module Spree
         def uncredited_orders
           points_period = Spree::Config.loyalty_points_award_period
           Spree::Order.with_uncredited_loyalty_points(points_period).
-            where.not(spree_orders: { state: Spree::Order::INELIGIBLE_ORDER_STATES })
+            where.not(spree_orders: { state: INELIGIBLE_ORDER_STATES })
         end
       end
 

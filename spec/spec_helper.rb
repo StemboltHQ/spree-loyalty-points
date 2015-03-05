@@ -34,6 +34,9 @@ require 'spree/testing_support/url_helpers'
 # Requires factories defined in lib/spree_loyalty_points/factories.rb
 require 'spree_loyalty_points/factories'
 
+# Require order walkthrough
+require 'spree/testing_support/order_walkthrough'
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
 

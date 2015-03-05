@@ -2,16 +2,15 @@ require 'spec_helper'
 
 describe Spree::CheckoutController do
 
-  let(:user) { mock_model(Spree::User).as_null_object }
-  let(:order) { mock_model(Spree::Order).as_null_object }
+  let(:user) { create :user }
+  let(:order) { create :order }
   let(:loyalty_points_payment_method) { Spree::PaymentMethod::LoyaltyPoints.create!(:environment => Rails.env, :active => true, :name => 'Loyalty_Points') }
   let(:payment) { Spree::Payment.new(:amount => 50.0) }
 
   before(:each) do
-    allow(controller).to receive(:spree_current_user).and_return(user)
-    allow(user).to receive(:generate_spree_api_key!).and_return(true)
-    allow(controller).to receive(:authorize!).and_return(true)
-    allow(controller).to receive(:load_order).and_return(true)
+    allow(controller).to receive_messages try_spree_current_user: user
+    allow(controller).to receive_messages spree_current_user: user
+    allow(controller).to receive_messages current_order: order
   end
 
   describe "PATCH 'update'" do
@@ -23,6 +22,11 @@ describe Spree::CheckoutController do
     end
 
     context "when state is payment" do
+      let(:order) { OrderWalkthrough.up_to('payment') }
+
+      before(:each) do
+        order.user = user
+      end
 
       def send_request
         patch :update, state: "payment", order: { payments_attributes: [{:payment_method_id => loyalty_points_payment_method.id}], id: order.id }, use_route: :spree

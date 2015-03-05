@@ -1,6 +1,5 @@
 module Spree
   class LoyaltyPointsTransaction < ActiveRecord::Base
-    include Spree::TransactionsTotalValidation
     belongs_to :user
     belongs_to :source, polymorphic: true
 
@@ -35,7 +34,7 @@ module Spree
       def generate_transaction_id
         begin
           self.transaction_id = (Time.current.strftime("%s") + rand(999999).to_s).to(15)
-        end while Spree::LoyaltyPointsTransaction.where(:transaction_id => transaction_id).present? 
+        end while Spree::LoyaltyPointsTransaction.where(:transaction_id => transaction_id).present?
       end
 
   end

@@ -8,8 +8,7 @@
       <th class="loyalty-points-source"><%= Spree.t(:source) %></th>
       <th class="loyalty-points-source-id"><%= Spree.t(:source_reference) %></th>
       <th class="loyalty-points-comment"><%= Spree.t(:comment) %></th>
-      <th class="loyalty-points-type"><%= Spree.t(:transaction_type) %></th>
-      <th class="loyalty-points"><%= Spree.t(:loyalty_points) %></th>
+      <th class="loyalty-points"><%= rewards_name %></th>
       <th class="loyalty-points-balance"><%= Spree.t(:updated_balance) %></th>
       <th class="actions"></th>
     </tr>
@@ -31,7 +30,6 @@
           <td class="loyalty-points-source-id"></td>
         <% end %>
         <td class="loyalty-points-comment"><%= loyalty_point_transaction.comment %></td>
-        <td class="loyalty-points-type"><%= loyalty_point_transaction.transaction_type %></td>
         <td class="loyalty-points"><%= Spree::LoyaltyPoints.loyalty_points_format.display(loyalty_point_transaction, loyalty_point_transaction.loyalty_points) %></td>
         <td class="loyalty-points-balance"><%= Spree::LoyaltyPoints.loyalty_points_format.display(loyalty_point_transaction, loyalty_point_transaction.balance) %></td>
         <td class="actions">

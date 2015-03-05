@@ -79,6 +79,16 @@ shared_examples_for "Order::LoyaltyPoints" do
       end
 
     end
+
+    context "when quantity is 0" do
+      
+      it "should not add a Loyalty Points Debit Transaction" do
+        expect {
+          resource_instance.send(:create_debit_transaction, 0)
+        }.to change{ Spree::LoyaltyPointsTransaction.count }.by(0)
+      end
+
+    end
   end
 
   describe 'loyalty_points_used?' do

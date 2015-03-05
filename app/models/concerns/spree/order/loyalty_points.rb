@@ -46,6 +46,7 @@ module Spree
       end
 
       def create_debit_transaction(points)
+        return unless points > 0
         user.present? && user.loyalty_points_transactions.create(source: self, loyalty_points: (-points))
       end
 

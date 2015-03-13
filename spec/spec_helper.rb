@@ -19,6 +19,7 @@ require File.expand_path('../dummy/config/environment.rb',  __FILE__)
 require 'rspec/rails'
 require 'database_cleaner'
 require 'ffaker'
+require 'pry'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -33,8 +34,14 @@ require 'spree/testing_support/url_helpers'
 # Requires factories defined in lib/spree_loyalty_points/factories.rb
 require 'spree_loyalty_points/factories'
 
+# Require order walkthrough
+require 'spree/testing_support/order_walkthrough'
+
 RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
+
+  # Rspec-rails 3 requires this functionality to be explicitly configured
+  config.infer_spec_type_from_file_location!
 
   # == URL Helpers
   #
@@ -71,7 +78,7 @@ RSpec.configure do |config|
 
   # Before each spec check if it is a Javascript test and switch between using database transactions or not where necessary.
   config.before :each do
-    DatabaseCleaner.strategy = example.metadata[:js] ? :truncation : :transaction
+    DatabaseCleaner.strategy = RSpec.current_example.metadata[:js] ? :truncation : :transaction
     DatabaseCleaner.start
   end
 
